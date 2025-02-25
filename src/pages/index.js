@@ -7,12 +7,15 @@ export default function Page() {
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
-    axios.get("https://pokeapi.co/api/v2/pokemon?limit=150")
+    axios
+      .get("https://pokeapi.co/api/v2/pokemon?limit=150")
       .then((response) => {
         const pokemonList = response.data.results.map((pokemon, index) => ({
           id: index + 1,
           name: pokemon.name,
-          image: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png,
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+            index + 1
+          }.png`,
         }));
         setPokemons(pokemonList);
       })
@@ -39,13 +42,19 @@ export default function Page() {
       </div>
       <div className="mt-4 pt-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredPokemons.map((pokemon) => (
-          <Link key={pokemon.id} href={/pokemon/${pokemon.id}}>
-            <div className="p-4 shadow-lg border rounded-lg cursor-pointer">
+          <Link key={pokemon.id} href={`/pokemon/${pokemon.id}`} legacyBehavior>
+            <a className="p-4 shadow-lg border rounded-lg cursor-pointer block">
               <div className="flex flex-col items-center">
-                <img src={pokemon.image} alt={pokemon.name} className="rounded-lg mb-4" />
-                <h2 className="text-lg font-semibold capitalize">{pokemon.name}</h2>
+                <img
+                  src={pokemon.image}
+                  alt={pokemon.name}
+                  className="rounded-lg mb-4"
+                />
+                <h2 className="text-lg font-semibold capitalize">
+                  {pokemon.name}
+                </h2>
               </div>
-            </div>
+            </a>
           </Link>
         ))}
       </div>
